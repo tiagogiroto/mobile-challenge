@@ -1,6 +1,6 @@
 import './ContatosCard.css';
 
-import { IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/react';
+import { IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonImg, IonItem, IonLabel, IonList, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/react';
 import AddContact from './AddContact';
 import { Redirect, Route } from 'react-router-dom';
 import { add, key } from 'ionicons/icons';
@@ -14,7 +14,6 @@ import { useState, useEffect } from 'react';
 // O usuário do aplicativo deve ser capaz de remover um contato específico.
 // ** storage
 
-
 const salvaContatos = (chave: string, valor: string)=> {
     localStorage.setItem(chave,valor)
 }
@@ -27,15 +26,39 @@ const apagar = (chave: string)=> {
     localStorage.removeItem(chave)
 }
 
+const teste = async () => {
+    const { value }: any = await Storage.get({key:'contato'});
+    console.log(JSON.parse(value))
 
+
+
+    // const { contatosData } = await Storage.get({key:'contato'}).then((result: any) => {       
+    //     console.log
+    //     return result;
+    // });
+}
 
 const Contatos: React.FC = () => {
-    let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
-    
-    useEffect(() => {
-        
-    }, [])
 
+    let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
+
+    const LoadDataStorage = async (): Promise<any> => {
+        const { value }: any = await Storage.get({key:'contato'});
+        console.log(JSON.parse(value))
+
+            // value.map((string: any, i: any) => {
+            //     return(
+            //         <IonCardContent class="col">{string.nome} {string.sobrenome}</IonCardContent>
+            //     )
+            // })
+
+        return JSON.parse(value);
+        
+    }
+    useEffect(() => {
+        LoadDataStorage()
+        },
+    [])
     
     return(
         <IonCard class="container">
@@ -44,16 +67,19 @@ const Contatos: React.FC = () => {
                     <AddContact/>
                 </Route>
             </IonRouterOutlet>
+                <IonList>   
+                    
                     {contatosData.map((string: any, i: any) => {   
                         return (
-                            <IonItem class="row" key={i}>
-                                <img className="img" src="https://3.bp.blogspot.com/-XG5bGlqGnJw/T9lIcssnybI/AAAAAAAADTA/B23ezXOkx8Y/s1600/Aang.jpg"/>
-                                <IonCardContent class="col">{string.nome} {string.sobrenome}</IonCardContent>   
-                            </IonItem> 
+                           
+                                <IonItem class="row" key={i}>
+                                    <img className="img" src="https://3.bp.blogspot.com/-XG5bGlqGnJw/T9lIcssnybI/AAAAAAAADTA/B23ezXOkx8Y/s1600/Aang.jpg"/>
+                                    <IonCardContent class="col">{string.nome} {string.sobrenome}</IonCardContent>   
+                                </IonItem> 
                         );
                     })}
+                    </IonList>
 
-                    {}
                 <IonTabBar slot="bottom">
                     <IonTabButton tab="AddContact" href="/AddContact">
                         <IonIcon icon={add} />

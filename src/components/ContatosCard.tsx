@@ -27,6 +27,8 @@ const apagar = (chave: string)=> {
     localStorage.removeItem(chave)
 }
 
+
+
 const Contatos: React.FC = () => {
     let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
     

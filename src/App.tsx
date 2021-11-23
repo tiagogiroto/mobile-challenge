@@ -34,7 +34,7 @@ import Contatos from './components/ContatosCard';
 import { Storage } from '@capacitor/storage';
 import React,{ useEffect, useState } from 'react';
 
-const contatos = [
+const contatos: any = [
   {
     nome: 'CONTATO TESTE',
     sobrenome: 'TESTE',
@@ -44,14 +44,35 @@ const contatos = [
 ]
 
 localStorage.setItem('Contatos', JSON.stringify(contatos));
+// // -------------------------------------------------------
+
+
+export async function set(): Promise<void> {
+  await Storage.set({
+    key: 'contatos',
+    value: JSON.stringify(contatos),
+  });
+
+}
+export async function get(key: string): Promise<any> {
+  const item: any = await Storage.get({ key: 'contatos' });
+  return JSON.parse(item.value);
+}
+
+export async function remove(key: string): Promise<void> {
+  await Storage.remove({
+    key: key,
+  });
+}
+
+// window.localStorage.setItem('username', 'josh');
+
 // -------------------------------------------------------
-
-
 
 const App: React.FC = () => {
 
   useEffect(() => {
-
+    set()
 }, [])
 
   return (

@@ -32,7 +32,7 @@ import './theme/variables.css';
 import AddContact from './components/AddContact';
 import Contatos from './components/ContatosCard';
 import { Storage } from '@capacitor/storage';
-import { useState } from 'react';
+import React,{ useEffect, useState } from 'react';
 
 const contatos = [
   {
@@ -44,20 +44,17 @@ const contatos = [
 ]
 
 localStorage.setItem('Contatos', JSON.stringify(contatos));
+// -------------------------------------------------------
 
-const LocalStore = async() => {
-  await Storage.set({
-    key: 'name',
-    value: 'Max',
-  });
-} 
 
-const CarregaJsonNovo = () =>{
-  localStorage.setItem('Contatos', JSON.stringify(contatos));
-}
 
-const App: React.FC = () => (
-   
+const App: React.FC = () => {
+
+  useEffect(() => {
+
+}, [])
+
+  return (
   <IonApp>
     <IonReactRouter>
     <IonRouterOutlet>
@@ -79,7 +76,7 @@ const App: React.FC = () => (
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-           <IonTabButton onClick={() => CarregaJsonNovo()} tab="Contact" href="/Contact">
+           <IonTabButton tab="Contact" href="/Contact">
             <IonIcon icon={triangle} />
             <IonLabel>Contatos</IonLabel>
           </IonTabButton> 
@@ -92,6 +89,9 @@ const App: React.FC = () => (
       {/* */}
     </IonReactRouter>
   </IonApp>
-);
+  )
+};
+
+
 
 export default App;

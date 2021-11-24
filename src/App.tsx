@@ -29,6 +29,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+
 import AddContact from './components/AddContact';
 import Contatos from './components/ContatosCard';
 import { Storage } from '@capacitor/storage';
@@ -49,54 +50,25 @@ const contatos: any = [
   }, 
 ]
 
-const  contatosLocal: any = [
-  {
-    nome: 'CONTATO TESTE',
-    sobrenome: 'TESTE',
-    telefone: '123456',
-    anotacao: 'teste '
-  }, 
-]
-
-localStorage.setItem('Contatos', JSON.stringify(contatosLocal));
-
-Storage.set({key:'Contatos', value: JSON.stringify(contatos)})
-// // -------------------------------------------------------
-
-export async function set(key: string, value: any ): Promise<void> {
-  
-}
-export async function get(key: string): Promise<any> {
-  const item: any = await Storage.get({ key: 'contatos' });
-  return JSON.parse(item.value);
-}
-
-export async function remove(key: string): Promise<void> {
-  await Storage.remove({
-    key: key,
-  });
-}
-
-// -------------------------------------------------------
+localStorage.setItem('Contatos', JSON.stringify(contatos));
 
 const App: React.FC = () => {
 
   useEffect(() => {
-    Storage.set({key: 'Contatos', value: JSON.stringify(contatos)
-  });
+
 }, [])
 
   return (
   <IonApp>
     <IonReactRouter>
-    <IonRouterOutlet>
+      <IonRouterOutlet class='container'>
           <Route exact path="/">
             <Contatos />
           </Route>        
           <Route exact path="/AddContact">
             <AddContact/>
           </Route>
-    </IonRouterOutlet>
+     </IonRouterOutlet>
       {/* */} 
       <IonTabs>
         <IonRouterOutlet>

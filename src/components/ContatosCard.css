@@ -3,3 +3,17 @@
     height: 45px;
     border-radius: 50%;
 }
+.container{
+    background: black;
+}
+.cardCss{
+    width: 95%;
+}
+.dadosUsuario{
+    height: 65px;   
+}
+
+.foto{
+    max-width: 20px;
+    max-height: 20px;
+}

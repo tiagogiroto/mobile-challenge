@@ -41,18 +41,30 @@ const contatos: any = [
     telefone: '123456',
     anotacao: 'teste '
   }, 
+  {
+    nome: 'CONTATO 2',
+    sobrenome: 'TESTdsadasE',
+    telefone: '123456',
+    anotacao: '5555555555 '
+  }, 
 ]
 
-localStorage.setItem('Contatos', JSON.stringify(contatos));
+const  contatosLocal: any = [
+  {
+    nome: 'CONTATO TESTE',
+    sobrenome: 'TESTE',
+    telefone: '123456',
+    anotacao: 'teste '
+  }, 
+]
+
+localStorage.setItem('Contatos', JSON.stringify(contatosLocal));
+
+Storage.set({key:'Contatos', value: JSON.stringify(contatos)})
 // // -------------------------------------------------------
 
-
-export async function set(): Promise<void> {
-  await Storage.set({
-    key: 'contatos',
-    value: JSON.stringify(contatos),
-  });
-
+export async function set(key: string, value: any ): Promise<void> {
+  
 }
 export async function get(key: string): Promise<any> {
   const item: any = await Storage.get({ key: 'contatos' });
@@ -65,14 +77,13 @@ export async function remove(key: string): Promise<void> {
   });
 }
 
-// window.localStorage.setItem('username', 'josh');
-
 // -------------------------------------------------------
 
 const App: React.FC = () => {
 
   useEffect(() => {
-    set()
+    Storage.set({key: 'Contatos', value: JSON.stringify(contatos)
+  });
 }, [])
 
   return (

@@ -1,11 +1,4 @@
 import './ContatosCard.css';
-
-// import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonImg, IonInput, IonItem, IonLabel, IonList, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTitle, IonToolbar } from '@ionic/react';
-// import AddContact from './AddContact';
-// import { add, key } from 'ionicons/icons';
-// import { useState, useEffect, FormEvent } from 'react';
-// import React from 'react';
-
 import React, { useState, FormEvent, useEffect } from 'react';
 
 import {
@@ -140,13 +133,33 @@ import { add, closeOutline } from 'ionicons/icons';
 //   )
 // }
 
+export default class Contatos extends React.Component {
+    dadosContato: any = JSON.parse(localStorage.getItem('Contatos')!);
 
 
-export default class Contatos extends React.Component { 
+    dataLoader  = async () => {
+        const { value } = await Storage.get({ key: 'Contatos' });
+        return JSON.stringify(value)
+    }
+
+
+    stringStorage() {
+        let dadosNovoContato =  Storage.get({ key: 'contato' });
+
+        // dadosNovoContato.then(function(r: any) {
+        //     dadosNovoContato = r
+        // })
+
+        // console.log(dadosNovoContato)
+    }
     
     constructor(props: any) {
         super(props);
-        this.state = { } 
+        this.state = { 
+
+        } 
+
+        
     }
  
     teste = () => {
@@ -160,14 +173,58 @@ export default class Contatos extends React.Component {
         // })
     } 
 
-    deleteItem(key: any){
+    async aa(){
+        this.dadosContato = await Storage.get({key:'contato'});
         
-        let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
+        var a = this.dadosContato;
 
-        let novoArray ;
-
-        console.log(novoArray)
+        return a;
     }
+
+    deleteItem(key: any){        
+        //let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
+        
+        // -------- teste 342423
+        
+        
+        
+        // -------------------- testem 432432
+        
+        // teste -----------------------------
+
+            // let novoArray =  this.dadosContato;
+            // const myArray: any = novoArray;
+            // myArray.splice(key,1)
+
+            // console.log(JSON.stringify(myArray))
+            
+            // Storage.set({key:'Contatos', value: JSON.stringify(myArray)})
+            
+            // console.log(this.dadosContato)
+
+        // teste -----------------------------
+
+
+        // return localStorage.setItem('contatos',novoArray)
+        // Storage.set({key: 'contato', value: JSON.stringify(contatos)
+
+        // localStorage.setItem('Contatos', JSON.stringify(contatos));
+        // this.dadosContato = localStorage.setItem('contatos', JSON.parse(myArray));
+
+        // return Storage.set(novoArray)
+    }
+    
+
+    deleteItemLocalStorage(key: any){        
+
+            let novoArray =  this.dadosContato;
+            const myArray: any = novoArray;
+            myArray.splice(key,1)
+            localStorage.setItem('Contatos', JSON.stringify(myArray));
+            
+            
+    }
+
     
     LoadDataStorage = async (): Promise<any> => {
         const { value }: any = await Storage.get({key:'contato'});
@@ -176,13 +233,23 @@ export default class Contatos extends React.Component {
         );
     }
     
-    render() {
-    // this.LoadDataStorage()
+    componentDidUpdate() {
+        // atualizar apos fechar btn
 
-    let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
-    // console.log(contatosData)
-    this.teste()
-        return (
+    }
+    
+    render() {
+        // let contatosData = JSON.parse(localStorage.getItem('Contatos')!);
+        
+        let a = this.dataLoader()
+
+        
+        // useEffect(() => {
+        //     localStorage.setItem('Contatos', JSON.stringify(this.dadosContato))
+        // }, [this.dadosContato])
+    
+    return (
+        
     <React.Fragment>
         <>
           <IonCard class="container">
@@ -192,12 +259,12 @@ export default class Contatos extends React.Component {
                  </Route>
             </IonRouterOutlet>
                 <IonList>
-                     {contatosData.map((string: any, i: any) => {   
+                     {this.dadosContato.map((string: any, i: any) => {   
                          return (
                                  <IonItem class="row" key={i}>
                                      <img className="img" src="https://3.bp.blogspot.com/-XG5bGlqGnJw/T9lIcssnybI/AAAAAAAADTA/B23ezXOkx8Y/s1600/Aang.jpg"/>
                                      <IonCardContent class="col">{string.nome} {string.sobrenome} </IonCardContent>
-                                     <IonIcon icon={closeOutline} onClick={ () =>  this.deleteItem(i) }/>
+                                     <IonIcon icon={closeOutline} onClick={ () =>  this.deleteItemLocalStorage(i) }/>
                                  </IonItem> 
                          );
                      })}

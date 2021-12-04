@@ -2,8 +2,15 @@ import './AddContact.css';
 import { IonButton, IonContent, IonInput, IonItem, IonList} from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { Storage } from '@capacitor/storage';
+import { useHistory } from 'react-router';
 
 const AddContact: React.FC = () => {
+    const history = useHistory();
+    const [dados, setDados]: any = useState([]);
+
+    useEffect(() => {
+        getData()
+    }, [])
 
     const getLocalData = () =>{
         let lista = localStorage.getItem('Contatos');
@@ -15,6 +22,13 @@ const AddContact: React.FC = () => {
         }
     }
 
+
+    async function getData(){
+        let lista = await Storage.get({key:'contato'});
+        setDados(JSON.parse(lista.value!))
+        
+    }
+
     const [ nome, setNome ] = useState('');
     const [ sobrenome, setSobrenome] = useState('');
     const [ telefone, setTelefone] = useState('');
@@ -22,18 +36,14 @@ const AddContact: React.FC = () => {
     const [ itens, setItens] = useState(getLocalData());
 
 
-    const salvarContato = () => {
-        setItens([...itens, {nome, sobrenome, telefone, anotacao}])
-        
+    const salvarContato = async () => {
+        let teste = ({nome, sobrenome, telefone, anotacao})
+        let Dds = dados.concat(teste)
+        await Storage.set({key: 'contato', value: JSON.stringify(Dds) })
         
         alert('Contato Salvo')
+        history.push("/Contact");
     }
-
-    useEffect(() => {
-        // localStorage.setItem('Contatos', JSON.stringify(itens))
-        Storage.set({key: 'contato', value: JSON.stringify(itens)})
-    }, [itens])
-
 
     return( 
     <IonList class="pageContato">

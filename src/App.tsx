@@ -29,9 +29,8 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
+import { useHistory  } from 'react-router'; 
 import AddContact from './components/AddContact';
-import Contatos from './components/ContatosCard';
 import { Storage } from '@capacitor/storage';
 import React,{ useEffect, useState } from 'react';
 import AlterContact from './components/AlterContact';
@@ -52,11 +51,16 @@ const contatos: any = [
   }, 
 ]
 
-localStorage.setItem('Contatos', JSON.stringify(contatos));
+// localStorage.setItem('Contatos', JSON.stringify(contatos));
 
 Storage.set({key: 'contato', value: JSON.stringify(contatos)})
 
 const App: React.FC = () => {
+  const history = useHistory();
+
+   const changePage = () =>{
+            history.push("/AddContact");
+        }
 
   useEffect(() => {
 

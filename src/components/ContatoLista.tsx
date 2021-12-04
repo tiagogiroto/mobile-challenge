@@ -1,5 +1,6 @@
 import './ContatosCard.css';
 import React, { useState, FormEvent, useEffect } from 'react';
+import { useHistory  } from 'react-router'; 
 
 import {
     IonHeader,
@@ -31,22 +32,42 @@ import { render } from '@testing-library/react';
 // O usuário do aplicativo deve ser capaz de adicionar um novo contato.
 // O usuário
 
-let dados: string[];
 
-const Contato: React.FC = () => {
-    let [dados, setDados] = useState('');
+const Contato: React.FC = ()  => {
     
-    const [data, setData] = useState('');
+    const [dados, setDados]: any = useState([]);
+
+    const history = useHistory();
     
+        useEffect(() => {
+            loadData()
+        }, [])
 
 
-    useEffect(() => {
-        // localStorage.setItem('Contatos', JSON.stringify(itens))
-        Storage.get({key:'contato'}).then((e) => {
-            console.log(JSON.parse(e.value!))
-        })
+        async function loadData() {
+            const dadosStore = await Storage.get({key:'contato'})
+            setDados(JSON.parse(dadosStore.value!))
+            
+        }
 
-    }, [])
+        const alterItem = (key: any) =>{     
+            history.push("/AlterContact#" + key);
+        }
+
+        const deleteItemStorage = async (key: any): Promise<any> =>{        
+            // dados
+            let t = dados.splice(key, 1)
+
+            let AttArray = t.concat(t)
+
+            Storage.remove({key: 'contato'})
+
+            Storage.set({key: 'contato', value: JSON.stringify(AttArray)})
+
+            // await Storage.remove({key:'contato'})
+
+
+        }
 
     return(
         <>
@@ -59,7 +80,21 @@ const Contato: React.FC = () => {
                 </IonRouterOutlet>
 
                 <IonList>
-                    
+                    {dados.map((dado: any, i: any) =>{
+                        return(
+                            <IonItem class="row" key={i} >
+                                        
+                            <img className="img" src="https://3.bp.blogspot.com/-XG5bGlqGnJw/T9lIcssnybI/AAAAAAAADTA/B23ezXOkx8Y/s1600/Aang.jpg"/>
+                            
+                            {/* onClick={() => this.alterItem(i)}  */}
+                            
+                            <IonCardContent onClick={() => alterItem(i)} class="col-6 dadosUsuario">{dado.nome} {dado.sobrenome} </IonCardContent>
+                            {/* onClick={ () =>  deleteItemStorage(i) } */}
+                            <IonIcon onClick={ () =>  deleteItemStorage(i) } class="col-4" icon={closeOutline} />
+                        </IonItem>   
+                            )
+                        })
+                    }
                 </IonList>
 
             </IonCard>
@@ -69,4 +104,5 @@ const Contato: React.FC = () => {
     );
     
 }
+
 export default Contato;

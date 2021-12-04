@@ -59,8 +59,9 @@ const App: React.FC = () => {
   const history = useHistory();
 
    const changePage = () =>{
-            history.push("/AddContact");
-        }
+          
+      history.push("/AddContact");
+    }
 
   useEffect(() => {
 

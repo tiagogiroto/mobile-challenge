@@ -41,7 +41,7 @@ const Contato: React.FC = ()  => {
     
         useEffect(() => {
             loadData()
-        }, [])
+        }, [dados])
 
 
         async function loadData() {
@@ -54,18 +54,21 @@ const Contato: React.FC = ()  => {
             history.push("/AlterContact#" + key);
         }
 
-        const deleteItemStorage = async (key: any): Promise<any> =>{        
-            // dados
-            let t = dados.splice(key, 1)
+        const deleteItemStorage = (key: any) =>{        
 
-            let AttArray = t.concat(t)
+            const apps = dados;
 
+            const removeIndex = apps.findIndex( (item: { id: number; }) => item.id === key );
+            apps.splice(removeIndex, 1);
+
+            
+            // let arrayAlter = dados;
+            
+            // console.log(arrayAlter.delete(key))
+            
             Storage.remove({key: 'contato'})
 
-            Storage.set({key: 'contato', value: JSON.stringify(AttArray)})
-
-            // await Storage.remove({key:'contato'})
-
+            Storage.set({key: 'contato', value: JSON.stringify(apps)})
 
         }
 
@@ -86,10 +89,8 @@ const Contato: React.FC = ()  => {
                                         
                             <img className="img" src="https://3.bp.blogspot.com/-XG5bGlqGnJw/T9lIcssnybI/AAAAAAAADTA/B23ezXOkx8Y/s1600/Aang.jpg"/>
                             
-                            {/* onClick={() => this.alterItem(i)}  */}
-                            
                             <IonCardContent onClick={() => alterItem(i)} class="col-6 dadosUsuario">{dado.nome} {dado.sobrenome} </IonCardContent>
-                            {/* onClick={ () =>  deleteItemStorage(i) } */}
+
                             <IonIcon onClick={ () =>  deleteItemStorage(i) } class="col-4" icon={closeOutline} />
                         </IonItem>   
                             )

@@ -39,6 +39,7 @@ const AddContact: React.FC = () => {
     const salvarContato = async () => {
         let teste = ({nome, sobrenome, telefone, anotacao})
         let Dds = dados.concat(teste)
+
         await Storage.set({key: 'contato', value: JSON.stringify(Dds) })
         
         alert('Contato Salvo')

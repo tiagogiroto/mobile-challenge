@@ -1,7 +1,7 @@
 import './AddContact.css';
 import { IonButton, IonContent, IonInput, IonItem, IonList} from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-
+import { Storage } from '@capacitor/storage';
 
 const AddContact: React.FC = () => {
 
@@ -30,7 +30,8 @@ const AddContact: React.FC = () => {
     }
 
     useEffect(() => {
-        localStorage.setItem('Contatos', JSON.stringify(itens))
+        // localStorage.setItem('Contatos', JSON.stringify(itens))
+        Storage.set({key: 'contato', value: JSON.stringify(itens)})
     }, [itens])
 
 
@@ -43,7 +44,7 @@ const AddContact: React.FC = () => {
                 <IonInput id='sobrenome' value={sobrenome} onIonChange={(e: any) => setSobrenome(e.target.value)} type='text' placeholder="Sobrenome"></IonInput>
             </IonItem>
             <IonItem> 
-                <IonInput id='telefone' value={telefone} onIonChange={(e: any) => setTelefone(e.target.value)} type='number' placeholder="Número de Telefone"></IonInput>
+                <IonInput id='telefone' value={telefone} onIonChange={(e: any) => setTelefone(e.target.value)} type='text' placeholder="Número de Telefone"></IonInput>
             </IonItem>
             <IonItem> 
                 <IonInput id='anotacao' value={anotacao} onIonChange={(e: any) => setAnotacao(e.target.value)} type='text' placeholder="Anotações"></IonInput>

@@ -34,6 +34,8 @@ import AddContact from './components/AddContact';
 import Contatos from './components/ContatosCard';
 import { Storage } from '@capacitor/storage';
 import React,{ useEffect, useState } from 'react';
+import AlterContact from './components/AlterContact';
+import Contato from './components/ContatoLista';
 
 const contatos: any = [
   {
@@ -52,6 +54,8 @@ const contatos: any = [
 
 localStorage.setItem('Contatos', JSON.stringify(contatos));
 
+Storage.set({key: 'contato', value: JSON.stringify(contatos)})
+
 const App: React.FC = () => {
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const App: React.FC = () => {
     <IonReactRouter>
       <IonRouterOutlet class='container'>
           <Route exact path="/">
-            <Contatos />
+            <Contato />
           </Route>        
           <Route exact path="/AddContact">
             <AddContact/>
@@ -73,10 +77,13 @@ const App: React.FC = () => {
       <IonTabs>
         <IonRouterOutlet>
           <Route exact path="/Contact">
-            <Contatos />
+            <Contato />
           </Route>        
           <Route exact path="/AddContact">
             <AddContact/>
+          </Route>
+          <Route exact path="/AlterContact">
+            <AlterContact/>
           </Route>
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
